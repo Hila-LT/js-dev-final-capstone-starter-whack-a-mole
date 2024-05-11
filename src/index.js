@@ -165,6 +165,8 @@ function toggleVisibility(hole){
 */
 function updateScore() {
   // TODO: Write your code here
+  points+=1;
+  score.textContent=points;
 
   return points;
 }
@@ -178,8 +180,8 @@ function updateScore() {
 */
 function clearScore() {
   // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  points = 0;
+  score.textContent = points;
   return points;
 }
 
@@ -217,7 +219,7 @@ function startTimer() {
 */
 function whack(event) {
   // TODO: Write your code here.
-  // call updateScore()
+  updateScore();
   return points;
 }
 
@@ -228,7 +230,8 @@ function whack(event) {
 */
 function setEventListeners(){
   // TODO: Write your code here
-
+  for (mole in moles)
+    mole.addEventListener("click", whack());
   return moles;
 }
 
