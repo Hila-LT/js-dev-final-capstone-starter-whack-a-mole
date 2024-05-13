@@ -4,10 +4,16 @@
   </head>
   <body>
     \
-    <h1 id="title"> Gotcha!! </h1>
+    <h1 id="title"> Who Moved My Cheese?! </h1>
     <div>
       <div>
-        <h2>Click <span><button id="start">start</button></span> to play!</h2>
+        <h2>Click <span><button  role="button" id="start">start</button></span> to play!</h2>
+
+      </div>
+      <div class="btn-group">
+        <h2>Set difficulty:  <span><button class="difficulty  selected" role="button" id="easy">Easy</button></span>
+          <span><button class="difficulty unselected" role="button" id="normal">Normal</button></span>
+          <span><button class="difficulty unselected" role="button" id="hard">Hard</button></span></h2>
 
       </div>
       <div>
@@ -45,7 +51,7 @@
       <div id="hole9" class="hole">
         <div id="mole9" class="mole"></div>
       </div>
-      <!--TODO: Add the missing holes and moles. -->
+
     </div>
     <script src="./src/index.js"></script>
   </body>

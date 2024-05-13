@@ -40,6 +40,8 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
+  /*changing the cursor to a mouse when in the grid area*/
+  cursor: url('../assets/cartoon_mouse128px.png'),auto;
   /*cursor: url('./assets/mallet.png'), pointer;*/
 }
 
@@ -65,7 +67,10 @@ h2 {
 
 .mole {
   /*background:url('./assets/mole.png') bottom center no-repeat;*/
-  background:url('https://github.com/Thinkful-Ed/js-dev-final-capstone-starter/blob/main/assets/mole.png?raw=true') bottom center no-repeat;
+  /*changing the mole to cheese*/
+  background: url("../assets/yellow_cheese_300px.png") bottom center no-repeat;
+  /*background:url('https://github.com/Thinkful-Ed/js-dev-final-capstone-starter/blob/main/assets/mole.png?raw=true') bottom center no-repeat;*/
+
   background-size: 40%;
   position: absolute;
   top: 100%;
@@ -82,3 +87,76 @@ h2 {
   top: 0;
   /*transform: scale(1.1);*/
 }
+
+/*changing the button appearance, taken from web library*/
+button {
+  --border: 5px;    /* the border width */
+  --slant: 0.7em;   /* control the slanted corners */
+  --color: #69db3a; /* the color */
+
+  font-size: 35px;
+  padding: 0.1em 1.2em;
+  border: 8px;
+  cursor: pointer;
+  font-weight: normal;
+  color: var(--color);
+  background:
+          linear-gradient(to bottom left,var(--color)  50%,#0000 50.1%) top right,
+          linear-gradient(to top   right,var(--color)  50%,#0000 50.1%) bottom left;
+  background-size: calc(var(--slant) + 1.3*var(--border)) calc(var(--slant) + 1.3*var(--border));
+  background-repeat: no-repeat;
+  box-shadow:
+          0 0 0 200px inset var(--s,#0000),
+          0 0 0 var(--border) inset var(--color);
+  clip-path:
+          polygon(0 0, calc(100% - var(--slant)) 0, 100% var(--slant),
+          100% 100%, var(--slant) 100%,0 calc(100% - var(--slant))
+          );
+  transition: color var(--t,0.3s), background-size 0.3s;
+}
+button:focus-visible {
+  outline-offset: calc(-1*var(--border));
+  /*#000c*/
+  outline: var(--border) solid #000c;
+  clip-path: none;
+  background-size: 0 0;
+}
+button:hover,
+button:active{
+  background-size: 100% 100%;
+  color: #fff;
+  --t: 0.2s 0.1s;
+}
+button:active {
+  --s: #0005;
+  color: #fff;
+  transition: none;
+}
+
+#start{
+  color:#69db3a;
+  slant:40px;
+  border:8px;
+  font-weight: bolder;
+  font-size: 40px;
+}
+/*changing the button to indicate it's' selected*/
+.selected{
+  background-color: aliceblue;
+}
+/*modifying difficulty buttons appearance*/
+#easy{
+  color: #2ea44f;
+
+}
+
+#normal{
+  color: #2ea44f;
+}
+
+#hard{
+  color: #2ea44f;
+}
+
+
+

@@ -1,6 +1,8 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
+//adding a query for the difficulty selection buttons
+const difficultyButtons = document.querySelectorAll('.difficulty');
 // TODO: Add the missing query selectors:
 const score = document.querySelector('#score'); // Use querySelector() to get the score element
 const timerDisplay = document.querySelector('#timer'); // use querySelector() to get the timer element.
@@ -9,8 +11,8 @@ let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
-let difficulty = "hard";
-
+let difficulty = 'easy';
+let difficultySelectedButtonId = '#easy';
 /**
  * Generates a random integer within a range.
  *
@@ -40,12 +42,24 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  // TODO: Write your code here.
-  if(difficulty==='easy')
+
+
+  if(difficulty==='easy') {
+    console.log("setting to easy");
     return 1500;
-  if(difficulty==='normal')
+  }
+  else if(difficulty==='normal'){
+    console.log("setting to normal");
     return 1000;
-  return randomInteger(600, 1200);
+  }
+  else if(difficulty==='hard')
+  {
+    console.log("setting to hard");
+    return randomInteger(600, 1200);
+  }
+  //in case of undefined value , set to easy
+  console.log("not the value expected for difficulty")
+  return 1500;
   
 }
 
@@ -64,7 +78,7 @@ function setDelay(difficulty) {
  * chooseHole(holes) //> returns one of the 9 holes that you defined
  */
 function chooseHole(holes) {
-  // TODO: Write your code here.
+
   const randHole= randomInteger(0,(holes.length-1));
   const hole = holes[randHole];
   if (hole === lastHole) {
@@ -95,7 +109,7 @@ function chooseHole(holes) {
 *
 */
 function gameOver() {
-  // TODO: Write your code here
+
   if(time>0){
     let timeoutID = showUp();
     return timeoutID;
@@ -113,11 +127,11 @@ function gameOver() {
 * This function simply calls the `showAndHide` function with a specific
 * delay and hole. The function needs to call `setDelay()` and `chooseHole()`
 * to call `showAndHide(hole, delay)`.
-*
-*/
+*    let delay = setDelay(difficulty);
+ */
 function showUp() {
-  let delay = setDelay(difficulty); // TODO: Update so that it uses setDelay()
-  const hole = chooseHole(holes);  // TODO: Update so that it use chooseHole()
+  let delay = setDelay(difficulty);
+  const hole = chooseHole(holes);
   return showAndHide(hole, delay);
 }
 
@@ -130,15 +144,15 @@ function showUp() {
 *
 */
 function showAndHide(hole, delay){
-  // TODO: call the toggleVisibility function so that it adds the 'show' class.
+
     toggleVisibility(hole);
   const timeoutID = setTimeout(() => {
-    // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
     toggleVisibility(hole);
     gameOver();
-  }, delay); // TODO: change the setTimeout delay to the one provided as a parameter
+  }, delay);
   return timeoutID;
 }
+
 
 /**
 *
@@ -147,11 +161,10 @@ function showAndHide(hole, delay){
 *
 */
 function toggleVisibility(hole){
-  // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-  const classes = hole.classList;
-  classes.toggle("show");
+  hole.classList.toggle("show");
   return hole;
 }
+
 
 /**
 *
@@ -164,10 +177,8 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  // TODO: Write your code here
   points+=1;
   score.textContent=points;
-
   return points;
 }
 
@@ -179,7 +190,7 @@ function updateScore() {
 *
 */
 function clearScore() {
-  // TODO: Write your code here
+  console.log("in clear score");
   points = 0;
   score.textContent = points;
   return points;
@@ -191,10 +202,10 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
-  return time;
+  if (time > 0){
+    time -= 1;
+    timerDisplay.textContent = time;
+  }return time;
 }
 
 /**
@@ -204,8 +215,7 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -218,9 +228,7 @@ function startTimer() {
 *
 */
 function whack(event) {
-  // TODO: Write your code here.
-  updateScore();
-  return points;
+  return  updateScore();
 }
 
 /**
@@ -228,12 +236,61 @@ function whack(event) {
 * Adds the 'click' event listeners to the moles. See the instructions
 * for an example on how to set event listeners using a for loop.
 */
-function setEventListeners(){
-  // TODO: Write your code here
-  for (mole in moles)
-    mole.addEventListener("click", whack());
+function setEventListeners() {
+    for (const mole of moles) {
+      mole.addEventListener("click", whack);
+  }
   return moles;
+
 }
+
+//modifying the class of the buttons to reflect the difficulty selection
+function changeDifficultySelectionButtons(newButtonId){
+  let newButton;
+  if(newButtonId.includes('#'))  //handling edge case
+    newButton = document.querySelector(newButtonId);
+  else
+    newButton = document.querySelector('#'+newButtonId);
+  console.log(" the new difficulty selected is: " + newButtonId);
+
+  let oldSelectedButton = document.querySelector(difficultySelectedButtonId);
+  console.log("oldSelected button : "+ oldSelectedButton.id);
+
+  //remove the 'selected' from the last difficulty button and add 'unselected'
+  let classes = oldSelectedButton.classList;
+  oldSelectedButton.classList.remove('selected');
+  classes.add('unselected');
+
+  // add selected class to the difficulty button selected and remove 'unselected'
+  classes = newButton.classList;
+  classes.remove('unselected');
+  classes.add('selected');
+}
+
+
+/**
+ * setting event listener for the difficulty buttons, and the function to handle it
+ */
+
+function setDifficultyEventListeners(){
+  for (const difficultyButton of difficultyButtons){
+    console.log("adding event listener to: " + difficultyButton.id);
+    difficultyButton.addEventListener("click", function (event) {
+      const currentBtn = event.target;
+      //updating the delay value
+      setDelay(currentBtn.id);
+      difficulty=currentBtn.id;
+
+      //updating the difficulty buttons presentation
+      changeDifficultySelectionButtons(currentBtn.id);
+      //tracking the newly selected difficulty level
+      difficultySelectedButtonId = '#'+currentBtn.id;
+      console.log("new difficultySelectedButtonId: " + difficultySelectedButtonId);
+    });
+  }
+}
+
+setDifficultyEventListeners();
 
 /**
 *
@@ -242,6 +299,7 @@ function setEventListeners(){
 *
 */
 function setDuration(duration) {
+  console.log("in set duration ")
   time = duration;
   return time;
 }
@@ -266,6 +324,9 @@ function stopGame(){
 */
 function startGame(){
   setDuration(10);
+  clearScore();
+  setEventListeners();
+  startTimer();
   showUp();
   return "game started";
 }
